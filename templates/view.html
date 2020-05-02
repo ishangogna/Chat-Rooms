@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script>
+        var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port)
+        
+        document.addEventListener('DOMContentLoaded',function(){
+            socket.on('connect', function(){
+                socket.emit('my event', {data : 'user connected'})
+            })
+            document.querySelector('button').onclick = function(){
+                var message = document.querySelector('h2').innerHTML + ': ' + document.querySelector('#message').value;
+                var channelName = document.querySelector('h1').innerHTML;
+                socket.emit('my message',{data : message,data2 : channelName})
+            }
+            socket.on('my response', function(msg){
+                console.log(msg);
+            });
+            socket.on('my message response',function(msg){
+                console.log(msg);
+            var li = document.createElement('li');
+            li.innerHTML = msg;
+            document.querySelector('#append').append(li);
+            document.querySelector('#message').value='';
+            })
+        });
+    </script>
+</head>
+
+    <body>
+        <h1>{{channelCreated}}</h1>
+        <h2>{{user}}</h2>
+        
+        
+        <ul id = "append">
+            {%for channelMessage in channelMessages%}
+            <li>{{channelMessage}}</li>
+            {% endfor %}
+        </ul>
+        
+        
+
+        <input type = 'text' id = 'message' placeholder="Enter your message">
+        <button>Send</button>
+    </body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+        {{user}}
+    <body>
+        <h1>
+            Create or Join a channel!
+        </h1>
+    <form action = "{{url_for('createChannel')}}" method="POST">
+    <input name = "channel" type = "text" placeholder="Enter Channel Name">
+    <button>Create Channel</button>
+</form>
+    {%for channelCreated in channelsCreated%}
+    <ul><li><a href = "{{url_for('channelView',channelCreated = channelCreated)}}">{{channelCreated}}</a></li></ul>
+    {%endfor%}
+    </body>
+</html>
