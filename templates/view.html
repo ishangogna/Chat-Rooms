@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/style2.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script>
@@ -28,22 +29,23 @@
             })
         });
     </script>
-</head>
-
-    <body>
+   </head>
+<body>
         <h1>{{channelCreated}}</h1>
         <h2>{{user}}</h2>
         
         
-        <ul id = "append">
+         <ul id = "append">
             {%for channelMessage in channelMessages%}
             <li>{{channelMessage}}</li>
             {% endfor %}
-        </ul>
+        </ul> 
         
         
 
         <input type = 'text' id = 'message' placeholder="Enter your message">
-        <button>Send</button>
+        <button class = "btn btn-primary btn-block btn-large">Send</button>
     </body>
+
+
 </html>
