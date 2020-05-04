@@ -10,21 +10,22 @@
            <img style = "position: absolute; bottom: 10px; right:10px; " src="../static/GognaInc.png"> 
            <ul class="nav nav-pills">
             <li class="nav-item">
-              <a class="nav-link active" href="{{url_for('login')}}">Login</a>
+              <a class="nav-link" href="{{url_for('login')}}">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('index')}}">Home</a>
+              <a class="nav-link active" href="{{url_for('index')}}">Home</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('index2')}}">Channels</a>
+              </li>
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
             </li>
           </ul>
         </header>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+   
     <script>
         var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port)
         
@@ -33,47 +34,70 @@
                 socket.emit('my event', {data : 'user connected'})
             })
             document.querySelector('button').onclick = function(){
-                var message = document.querySelector('h2').innerHTML + ': ' + document.querySelector('#message').value;
+                var message = document.querySelector('#message').value;
                 var channelName = document.querySelector('h1').innerHTML;
-                socket.emit('my message',{data : message,data2 : channelName})
+                let timestamp = new Date;
+                timestamp = timestamp.toLocaleTimeString();
+
+                socket.emit('my message',{data : message,data2 : channelName,data3 : timestamp})
             }
             socket.on('my response', function(msg){
                 console.log(msg);
             });
-            socket.on('my message response',function(msg){
-                console.log(msg);
-            var li = document.createElement('li');
-            li.innerHTML = msg;
-            document.querySelector('#append').append(li);
-            document.querySelector('#message').value='';
+            // socket.on('my message response',function(msg){
+            //     console.log(msg);
+            // var li = document.createElement('li');
+            // li.innerHTML = msg;
+            // document.querySelector('#append').append(li);
+            // document.querySelector('#message').value='';
+            
+            // })
+            socket.on('my message response', function(msg){
+                console.log(msg.user);
+                var li = document.createElement('li');
+                if (msg.user == document.querySelector('#userName').innerHTML){
+                    li.innerHTML = `${msg.user.bold().fontcolor("black")} : ${msg.message} ${msg.timestamp.fontsize(1).italics().fontcolor("white")}`
+                }
+                else{
+                    li.innerHTML = `${msg.user.bold().fontcolor("Blue")} : ${msg.message} ${msg.timestamp.fontsize(1).italics().fontcolor("white")}`
+                }
+                document.querySelector('#append').append(li);
+                document.querySelector('#message').value = '';
             })
         });
     </script>
     <style>
         #append li{
             border: 1px solid black;
+            border-radius: 25px;
+            padding: 10px;
             width: 100%;
-            background-color: blueviolet;
+            background-color: grey;
             list-style-type: none;
-            margin: 5px;
-        }   
+            margin:5px;
+            color: white;
+            
+        }  
+        
         #userName{
-                position: absolute;
+                position:fixed;
                 top: 20px;
                 right:20px;
             }
+        
+        
     </style>
    </head>
 <body>
         <h1 style = "color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center;">{{channelCreated}}</h1>
         <h2 id = "userName">{{user}}</h2>
         
-        
          <!-- <ul id = "append">
             {%for channelMessage in channelMessages%}
             <li class = "listItem">{{channelMessage}}</li>
             {% endfor %}
         </ul>  -->
+        
         <ul id = "append">
             {%for channelMessage in channelMessages%}
             <li>{{channelMessage}}</li>

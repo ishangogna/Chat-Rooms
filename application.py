@@ -21,6 +21,10 @@ def index():
         return render_template("index.html",user = session["user"],channelsCreated=channelsCreated)
     return render_template("login.html")
 
+@app.route("/home")
+def index2():
+    return render_template("index.html",user = session["user"],channelsCreated=channelsCreated)
+
 @app.route("/login", methods = ["POST","GET"])
 def login():
     if request.method == "POST":
@@ -60,7 +64,8 @@ def createChannel():
 @app.route("/channel/<string:channelCreated>",methods = ["POST","GET"])
 def channelView(channelCreated):
     session["channel"] = channelCreated
-    #channelMessages[session["channel"]] = collections.deque()
+    if len(channelMessages[channelCreated])>10:
+        channelMessages[channelCreated].popleft()
     print("from channel view " + str(channelMessages[channelCreated]))
     return render_template("view.html",channelCreated = channelCreated,channelMessages= channelMessages[channelCreated], user = session["user"])
 
@@ -69,17 +74,36 @@ def channelView(channelCreated):
 def handleEvent( json ):
     print('received something : ' + str(json))
     socketio.emit('my response',json)
-now = datetime.now()
+
+# @socketio.on('my message')
+# def handleMessage(json):
+#     string1 = str(json['data'])
+#     channel = str(json['data2'])
+#     timestamp = str(json['data3'])
+#     actualString = string1 + '(' + timestamp + ')'
+#     channelMessages[channel].append(actualString)
+#     print(channelMessages[channel])
+#     print(timestamp)
+    
+#     print('received sometihng : ' + actualString)
+#     socketio.emit('my message response',actualString)
 @socketio.on('my message')
 def handleMessage(json):
     string1 = str(json['data'])
     channel = str(json['data2'])
-    actualString = string1 + '(' + now.strftime("%H:%M:%S") + ')'
+    timestamp = str(json['data3'])
+    actualString = string1
     channelMessages[channel].append(actualString)
     print(channelMessages[channel])
+    print(timestamp)
     
     print('received sometihng : ' + actualString)
-    socketio.emit('my message response',actualString)
+    socketio.emit('my message response',{
+        'user':session.get('user'),
+        'message' : actualString,
+        'timestamp' : timestamp
+        
+    })
 
 if __name__=="__main__":
     socketio.run(app, debug = True)
