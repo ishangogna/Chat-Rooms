@@ -8,9 +8,20 @@
      
         <img style = "position: absolute; bottom: 10px; right:10px; " src="../static/GognaInc.png"> 
 
-
-     
-
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link active" href="{{url_for('login')}}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('index')}}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
     </header>
 </head>
 

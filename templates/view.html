@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../static/style.css">
+     <link rel="stylesheet" href="../static/style.css">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     <header>
         <img style = "margin: 20px;" src="../static/Logo.png">
         
            <img style = "position: absolute; bottom: 10px; right:10px; " src="../static/GognaInc.png"> 
-    </header>
+           <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link active" href="{{url_for('login')}}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('index')}}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+        </header>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script>
@@ -33,17 +49,37 @@
             })
         });
     </script>
+    <style>
+        #append li{
+            border: 1px solid black;
+            width: 100%;
+            background-color: blueviolet;
+            list-style-type: none;
+            margin: 5px;
+        }   
+        #userName{
+                position: absolute;
+                top: 20px;
+                right:20px;
+            }
+    </style>
    </head>
 <body>
         <h1 style = "color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center;">{{channelCreated}}</h1>
-        <h2>{{user}}</h2>
+        <h2 id = "userName">{{user}}</h2>
         
         
-         <ul id = "append">
+         <!-- <ul id = "append">
+            {%for channelMessage in channelMessages%}
+            <li class = "listItem">{{channelMessage}}</li>
+            {% endfor %}
+        </ul>  -->
+        <ul id = "append">
             {%for channelMessage in channelMessages%}
             <li>{{channelMessage}}</li>
             {% endfor %}
-        </ul> 
+
+        </ul>
         
         
 

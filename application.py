@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from flask import Flask,render_template,request,session,redirect
+from flask import Flask,render_template,request,session,redirect,flash
 from flask_socketio import SocketIO, emit,send
 import collections
 app = Flask(__name__)
@@ -41,7 +41,9 @@ def login():
 @app.route("/logout",methods = ["GET"])
 def logout():
     session.clear()
+    flash('Successfully logged out')
     return redirect('/')
+    
 
 
 @app.route("/channel",methods = ["POST"])
