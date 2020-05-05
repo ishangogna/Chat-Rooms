@@ -21,6 +21,7 @@ def index():
         return render_template("index.html",user = session["user"],channelsCreated=channelsCreated)
     return render_template("login.html")
 
+
 @app.route("/home")
 def index2():
     return render_template("index.html",user = session["user"],channelsCreated=channelsCreated)
@@ -58,7 +59,7 @@ def createChannel():
     else:
         channelsCreated.append(channel)
         channelMessages[channel] = collections.deque()
-        return render_template('index.html',channelsCreated=channelsCreated)
+        return render_template('index.html',channelsCreated=channelsCreated,user = session["user"])
 
 
 @app.route("/channel/<string:channelCreated>",methods = ["POST","GET"])
@@ -82,7 +83,7 @@ def handleMessage(json):
     channel = str(json['data2'])
     timestamp = str(json['data3'])
     actualString = string1
-    channelMessages[channel].append(timestamp + actualString)
+    channelMessages[channel].append(actualString + "(" + timestamp + ")")
     print(channelMessages[channel])
     print(timestamp)
     
@@ -94,5 +95,5 @@ def handleMessage(json):
     })
 
 if __name__=="__main__":
-    socketio.run(app, debug = True)
-    #app.run()
+    #socketio.run(app, debug = True)
+    app.run()

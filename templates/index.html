@@ -6,23 +6,24 @@
         <header>
             <img style = "margin: 20px;" src="../static/Logo.png">
             
-               <img style = "position: absolute; bottom: 10px; right:10px; " src="../static/GognaInc.png"> 
+               <img style = "position: absolute; bottom: 10px; right:10px; " src="../static/Gognas.png"> 
        
         </header>
         <style>
             #userName{
                 position: absolute;
-                top: 20px;
+                top: 75px;
                 right:20px;
-            }
-            
+               
+                
+            }            
             #channelList li{
                 list-style-type: none;
                 font-size: larger;
                 width: 100px;
                 
             }
-            .channelCollection {
+            /* .channelCollection {
                 
                 height: 60%;
                 width : 40%;
@@ -32,14 +33,20 @@
                 position: fixed;
                 padding: 0px;
                 overflow-y: scroll;
+            } */
+            .channelCollection {
+                height: 65%;
+                overflow-y:scroll;
+                margin-top:10px;
             }
-            .login {
+            /* .login {
                 left:30%;
-            }
+            } */
             ::-webkit-scrollbar {
                  display: none;
                 }
-            
+
+                     
         </style>
         
         <header>
@@ -53,23 +60,24 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('index2')}}">Channels</a>
                   </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-                </li>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="{{url_for('logout')}}">{{user}}</a>
+                  </li>
                 
               </ul>
         </header>
     </head>
-        <h1 id = userName>{{user}}</h1>
+        <!-- <h1 id = userName>{{user}}</h1> -->
     <body>
         <div class = "login">
-        <h1>Create or Join a channel!</h1>
+        <h1 id = "createJoin">Create or Join a channel!</h1>
         <form action = "{{url_for('createChannel')}}" method="POST">
     <input name = "channel" type = "text" placeholder="Enter Channel Name">
     <button class="btn btn-primary btn-block btn-large">Create Channel</button>
 </form>
-
-</div>
 <div class = "channelCollection">
     {%for channelCreated in channelsCreated%}
     <ul id = "channelList"><li><a href = "{{url_for('channelView',channelCreated = channelCreated)}}"><svg class="bi bi-chat-dots-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -77,6 +85,14 @@
       </svg> {{channelCreated}}</a></li></ul>
     {%endfor%}
 </div>
+</div>
+<!-- <div class = "channelCollection">
+    {%for channelCreated in channelsCreated%}
+    <ul id = "channelList"><li><a href = "{{url_for('channelView',channelCreated = channelCreated)}}"><svg class="bi bi-chat-dots-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 01-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 11-2 0 1 1 0 012 0zm4 0a1 1 0 11-2 0 1 1 0 012 0zm3 1a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+      </svg> {{channelCreated}}</a></li></ul>
+    {%endfor%}
+</div> -->
 
 
 </body>

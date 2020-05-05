@@ -6,7 +6,7 @@
  <header>
      <img style = "margin: 20px;" src="../static/Logo.png">
      
-        <img style = "position: absolute; bottom: 10px; right:10px; " src="../static/GognaInc.png"> 
+        <img style = "position: absolute; bottom: 10px; right:10px; " src="../static/Gognas.png"> 
 
         <ul class="nav nav-pills">
             <li class="nav-item">
@@ -18,9 +18,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{url_for('index2')}}">Channels</a>
               </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
-            </li>
+            </li> -->
            
           </ul>
     </header>
@@ -29,9 +29,9 @@
 <body>
     
     <div class="login">
-        <h1>Login</h1>
+        <h1>Welcome.</h1>
         <form method="post" action = "{{url_for('login')}}" >
-            <input type="text" name="user" placeholder="Username" required="required" />
+            <input type="text" name="user" placeholder="Create a Display Name" required="required" />
             
             <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
         </form>
