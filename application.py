@@ -58,7 +58,7 @@ def createChannel():
     else:
         channelsCreated.append(channel)
         channelMessages[channel] = collections.deque()
-        return render_template('index.html',channelsCreated=channelsCreated,user=session["user"])
+        return render_template('index.html',channelsCreated=channelsCreated)
 
 
 @app.route("/channel/<string:channelCreated>",methods = ["POST","GET"])
@@ -75,25 +75,14 @@ def handleEvent( json ):
     print('received something : ' + str(json))
     socketio.emit('my response',json)
 
-# @socketio.on('my message')
-# def handleMessage(json):
-#     string1 = str(json['data'])
-#     channel = str(json['data2'])
-#     timestamp = str(json['data3'])
-#     actualString = string1 + '(' + timestamp + ')'
-#     channelMessages[channel].append(actualString)
-#     print(channelMessages[channel])
-#     print(timestamp)
-    
-#     print('received sometihng : ' + actualString)
-#     socketio.emit('my message response',actualString)
+
 @socketio.on('my message')
 def handleMessage(json):
     string1 = str(json['data'])
     channel = str(json['data2'])
     timestamp = str(json['data3'])
     actualString = string1
-    channelMessages[channel].append(actualString)
+    channelMessages[channel].append(timestamp + actualString)
     print(channelMessages[channel])
     print(timestamp)
     
@@ -101,9 +90,9 @@ def handleMessage(json):
     socketio.emit('my message response',{
         'user':session.get('user'),
         'message' : actualString,
-        'timestamp' : timestamp
-        
+        'timestamp' : timestamp,
     })
 
 if __name__=="__main__":
     socketio.run(app, debug = True)
+    #app.run()

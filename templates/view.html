@@ -28,11 +28,12 @@
    
     <script>
         var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port)
-        
         document.addEventListener('DOMContentLoaded',function(){
-            socket.on('connect', function(){
+           socket.on('connect', function(){
                 socket.emit('my event', {data : 'user connected'})
             })
+            
+
             document.querySelector('button').onclick = function(){
                 var message = document.querySelector('#message').value;
                 var channelName = document.querySelector('h1').innerHTML;
@@ -62,6 +63,7 @@
                     li.innerHTML = `${msg.user.bold().fontcolor("Blue")} : ${msg.message} ${msg.timestamp.fontsize(1).italics().fontcolor("white")}`
                 }
                 document.querySelector('#append').append(li);
+    
                 document.querySelector('#message').value = '';
             })
         });
@@ -74,7 +76,9 @@
             width: 100%;
             background-color: grey;
             list-style-type: none;
-            margin:5px;
+            margin-top:5px;
+            margin-left:-20px;
+           
             color: white;
             
         }  
@@ -84,8 +88,18 @@
                 top: 20px;
                 right:20px;
             }
-        
-        
+        /* width */
+  ::-webkit-scrollbar {
+    display:none;
+  }
+          #append{
+            overflow-y:scroll;
+            overflow-x: scroll;
+            height:40%;
+            border:1px solid black;
+    
+
+        }
     </style>
    </head>
 <body>
@@ -100,7 +114,7 @@
         
         <ul id = "append">
             {%for channelMessage in channelMessages%}
-            <li>{{channelMessage}}</li>
+            <li id = channelMessage>{{channelMessage}}</li>
             {% endfor %}
 
         </ul>
@@ -109,6 +123,7 @@
 
         <input type = 'text' id = 'message' placeholder="Enter your message">
         <button class = "btn btn-primary btn-block btn-large">Send</button>
+        
     </body>
 
 
